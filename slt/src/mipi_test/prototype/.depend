@@ -1,0 +1,21 @@
+nx_clkgen.o: module/nx_clkgen.c nx_base/nx_chip.h module/nx_clkgen.h \
+ module/../nx_base/nx_prototype.h module/../nx_base/nx_type.h \
+ module/../nx_base/nx_debug.h module/../nx_base/nx_clockcontrol.h \
+ module/../nx_base/nx_bit_accessor.h nx_base/nx_type.h
+nx_mipi.o: module/nx_mipi.c nx_base/nx_chip.h module/nx_mipi.h \
+ module/../nx_base/nx_prototype.h module/../nx_base/nx_type.h \
+ module/../nx_base/nx_debug.h module/../nx_base/nx_clockcontrol.h \
+ module/../nx_base/nx_bit_accessor.h nx_base/nx_type.h
+nx_vip.o: module/nx_vip.c nx_base/nx_chip.h module/nx_vip.h \
+ module/../nx_base/nx_prototype.h module/../nx_base/nx_type.h \
+ module/../nx_base/nx_debug.h module/../nx_base/nx_clockcontrol.h \
+ module/../nx_base/nx_bit_accessor.h nx_base/nx_type.h
+nx_tieoff.o: module/nx_tieoff.c nx_base/nx_chip.h module/nx_tieoff.h \
+ module/../nx_base/nx_prototype.h module/../nx_base/nx_type.h \
+ module/../nx_base/nx_debug.h module/../nx_base/nx_clockcontrol.h \
+ module/../nx_base/nx_bit_accessor.h nx_base/nx_type.h \
+ module/../nx_base/nx_type.h
+nx_rstcon.o: module/nx_rstcon.c nx_base/nx_chip.h module/nx_rstcon.h \
+ module/../nx_base/nx_prototype.h module/../nx_base/nx_type.h \
+ module/../nx_base/nx_debug.h module/../nx_base/nx_clockcontrol.h \
+ module/../nx_base/nx_bit_accessor.h nx_base/nx_type.h
