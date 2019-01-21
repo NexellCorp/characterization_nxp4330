@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <time.h>
 
-#define	IN_FILE_NAME			"/mnt/mmc0/audio/0xaa55_48000_16bit.wav"
+#define	IN_FILE_NAME			"/usr/local/0xaa55_48000_16bit.wav"
 #define	OUT_FILE_NAME			"/tmp/spdif_test.wav"
 
 #define TEST_COUNT				(1)
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
         case 'T':   play_time = atoi(optarg);	break;
 		case 'v':	debug = 1;					break;
         default:
-        	break;
+			break;
 		}
 	}
 
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 		if (playback) {
 			DBG(("---------SPDIF_TX Playback TEST---------\n"));
 
-			sprintf(cmdString, "speaker-test -tw -l %d -D default:CARD=SPDIFTranscieve > /dev/null", play_time);
+			sprintf(cmdString, "speaker-test -tw -l %d -Dhw:0,3 -c 2 > /dev/null", play_time);
 			ret = system(cmdString);
 			if (ret != 0) {
 				printf("spdif_tx device is not found.\n");
@@ -73,17 +73,17 @@ int main(int argc, char **argv)
 		}
 		else {
 			DBG(("-----SPDIF TX <-> RX loopback TEST------\n"));
-		
+
 			sprintf( cmdString,
-			"aplay -D default:CARD=SPDIFTranscieve %s -d %d &"
-			"arecord -D default:CARD=SPDIFReceiver -f 'Signed 16 bit Little Endian' -r 48000 -c 2 -d %d %s"
+			"aplay -Dhw:0,3 -c 2 %s -d %d &"
+			"arecord -Dhw:0,4 -f 'Signed 16 bit Little Endian' -r 48000 -c 2 -d %d %s"
 			, IN_FILE_NAME, play_time + 2, play_time, OUT_FILE_NAME );
 			system( cmdString );
 			if (ret != 0) {
 				printf("spdif_tx device is not found.\n");
 				return -ENODEV;
 			}
-	
+
 			fd = fopen(OUT_FILE_NAME,"rb");
 			if (fd == NULL)	{
 				printf("file open error!\n");
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 			}
 
 			fseek(fd, 54, SEEK_SET);
-	
+
 			for (i=0; i<2; i++)	{
 				verify[i] = fgetc(fd);
 				if (compare[i] != verify[i]) {
@@ -108,11 +108,11 @@ int main(int argc, char **argv)
 		                newtime->tm_hour -= 12;    /*   to 12-hour clock.  */
 			        if( newtime->tm_hour == 0 )        /*Set hour to 12 if midnight. */
 		                newtime->tm_hour = 12;
-	    			sprintf( cmdString, "cp /tmp/spdif_test.wav /mnt/mmc0/audio/%dm%dd_%dh%dm%ds_%s.wav", newtime->tm_mon+1, newtime->tm_mday, newtime->tm_hour, newtime->tm_min, newtime->tm_sec, am_pm );
+						sprintf( cmdString, "cp /tmp/spdif_test.wav /mnt/mmc0/audio/%dm%dd_%dh%dm%ds_%s.wav", newtime->tm_mon+1, newtime->tm_mday, newtime->tm_hour, newtime->tm_min, newtime->tm_sec, am_pm );
 					system( cmdString );
 					goto exit;
 				}
-			}	
+			}
 			fclose(fd);
 		}
 		if (ret!=0)
