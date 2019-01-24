@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 			sprintf( cmdString,
 			"aplay -Dhw:0,%d %s -c 2 -d %d & sleep 1;"
 			"arecord -Dhw:0,%d -f 'Signed 16 bit Little Endian' -r 48000 -c 2 -d %d %s",
-			ch, IN_FILE_NAME, play_time + 1, loop_ch, play_time, OUT_FILE_NAME);
+			ch, IN_FILE_NAME, play_time + 2, loop_ch, play_time, OUT_FILE_NAME);
 			ret = system( cmdString );
 			if (ret < 0) {
 				printf("i2s%d device is not found.\n", ch);
