@@ -4,8 +4,7 @@ BASEDIR="$(cd "$(dirname "$0")" && pwd)/../.."
 RESULT="$BASEDIR/result"
 
 # Toolchains for Bootloader and Linux
-LINUX_TOOLCHAIN="$BASEDIR//characterization/crosstool/arm-cortex_a9-eabi-4.7-eglibc-2.18/bin/arm-cortex_a9-linux-gnueabi-"
-
+LINUX_TOOLCHAIN="$BASEDIR//characterization/crosstool/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-"
 # Build PATH
 BR2_DIR=$BASEDIR/buildroot
 UBOOT_DIR=$BASEDIR/u-boot-2016.01
