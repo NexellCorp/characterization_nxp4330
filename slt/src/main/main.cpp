@@ -8,8 +8,13 @@
 #include <fcntl.h>
 #include <errno.h>
 #include "asb_protocol.h"
+#include "uart_test.h"
 #include "ecid.h"
 
+extern "C"
+{
+	int uart_init(void);
+};
 typedef struct TEST_ITEM_INFO{
 	uint32_t	binNo;
 	const char	appName[128];
@@ -19,9 +24,11 @@ typedef struct TEST_ITEM_INFO{
 	uint64_t	testTime;
 }TEST_ITEM_INFO;
 
-#define	EN_CONNECT_ASB 1
 #define DUMP 0
 #define DUMP_LIMIT 100
+
+#define ENABLE_UART 0
+
 const char *gstStatusStr[32] = {
 	"FAILED",
 	"OK",
@@ -91,59 +98,12 @@ enum {
 	BIN_AES          = 213,	//	SFR
 	BIN_CLOCK_GEN    = 214,	//	Almost IP use clock generator.
 	BIN_RO_CHECK     = 215,	
+	BIN_CPU_SORT	 = 216,
 };
 
 static TEST_ITEM_INFO gTestItems[] =
 {
-	{ BIN_CPU_SMP    , "/root/cpuinfo_test",     "CPU Core Test   ", "-n 4",                            1, 0 },
-	{ BIN_RO_CHECK    , "/root/ro_test",     	 "CPU RO Test     ", "",                            1, 0 },
-	{ BIN_ADC        , "/root/adc_test",         "ADC Test        ", "-m ASB",                          1, 0 },
-	{ BIN_GMAC       , "/root/gmac_test",        "GMAC Test       ", "",                                1, 0 },
-	{ BIN_I2C        , "/root/i2c_test",         "I2C CH 0 Test   ", "-p 0 -a 64 -m1 -r 0 -v 0x0",      1, 0 },
-	{ BIN_I2C        , "/root/i2c_test",         "I2C CH 1 Test   ", "-p 1 -a 8a -m1 -r 0 -v 0x0",      1, 0 },
-	{ BIN_I2C        , "/root/i2c_test",         "I2C CH 2 Test   ", "-p 2 -a 64 -m1 -r 0 -v 0x0",      1, 0 },
-	{ BIN_I2S        , "/root/i2s_test",         "I2S CH 0 <-> 1  ", "-p 0 -l 1",                       1, 0 },
-	{ BIN_I2S        , "/root/i2s_test",         "I2S CH 0 <-> 2  ", "-p 0 -l 2",                       1, 0 },
-	{ BIN_AC97       , "/root/sfr_test",         "AC97 Test       ", "-a c0058008 -w ffff -m ffff -t",	1, 0 },
-	{ BIN_SPDIF      , "/root/spdif_test",       "SPDIF TX <-> RX ", "-l",                              1, 0 },
-	{ BIN_SDMMC      , "/root/mmc",              "MMC Test        ", "",                                1, 0 },
-	{ BIN_MCU_S      , "/root/nand_test",        "NAND Test       ", "",                                1, 0 },
-	{ BIN_PPM        , "/root/pwm_ppm",          "PWM/PPM Test    ", "-p 0 -r 100 -d 50",             	1, 0 },
-	{ BIN_PWM        , "/root/sfr_test",         "PWM CH 3 Test   ", "-a c0018030 -w ffff -m ffff -t"  ,1, 0 },
-	{ BIN_PDM        , "/root/sfr_test",         "PDM Test        ", "-a c0014014 -w ffff -m ffff -t",  1, 0 },
-	{ BIN_SPI        , "/root/sfr_test",         "SPI CH 1 Test   ", "-a c005c010 -w fe -m fe -t",      1, 0 },
-	{ BIN_UART       , "/root/uart_test",        "UART CH 1 <-> 2 ", "-p /dev/ttyAMA1 -d /dev/ttyAMA2", 1, 0 },
-	{ BIN_UART       , "/root/uart_test",        "UART CH 3 <-> 4 ", "-p /dev/ttyAMA3 -d /dev/ttyAMA4", 1, 0 },
-	{ BIN_GPIO       , "/root/gpio_test",        "GPIO ALV5,A27   ", "-a 165 -b 27",                    1, 0 },
-	{ BIN_GPIO       , "/root/gpio_test",        "GPIO E30,E31    ", "-a 158 -b 159",                   1, 0 },
-	{ BIN_MPEG_TS    , "/root/sfr_test",         "MPEG-TS CH 0    ", "-a c005d000 -w f0 -m f0 -t", 		1, 0 },
-	{ BIN_MPEG_TS    , "/root/sfr_test",         "MPEG-TS CH 1    ", "-a c005d004 -w f0 -m f0 -t", 		1, 0 },
-	{ BIN_VPP        , "/root/sfr_test",         "Scaler Test     ", "-a c0066014 -w fff -m fff -t", 	1, 0 },
-	{ BIN_MIPI_DSI   , "/root/sfr_test",         "MIPI DSI Test   ", "-a c00d0108 -w ffff -m ffff -t",	1, 0 },
-	{ BIN_VIP_0      , "/root/sfr_test",         "VIP 0 Test      ", "-a c0064010 -w ffff -m ffff -t",	1, 0 },
-	{ BIN_VIP_1      , "/root/mipi_test",        "VIP 1 Test     ", "",								    1, 0 },
-	{ BIN_HDMI       , "/root/sfr_test",         "HDMI Test       ", "-a c0101014 -w ffff -m ffff -t",	1, 0 },
-	{ BIN_AES        , "/root/sfr_test",         "Crypto Engine   ", "-a c0015000 -w 7 -m 7 -t", 		1, 0 },
-	{ BIN_VPU        , "/root/asb_vpu",          "VPU Test        ", "",                                1, 0 },
-	{ BIN_3D         , "/root/asb_graphic",      "VR 3D Test      ", "",                                1, 0 },
-	{ BIN_USB_HOST   , "/root/usb_test",         "USB EHCI        ", "-d 1",                            1, 0 },
-	{ BIN_USB_HSIC   , "/root/usb_test",         "USB HSIC        ", "-d 2",                            1, 0 },
-	{ BIN_OTG_HOST   , "/root/usb_test",         "USB OTGHOST     ", "-d 3",                            1, 0 },
-	{ BIN_RTC        , "/root/rtc_alarm_test",   "RTC Alarm Test  ", "-T 2",                            1, 0 },
-	{ BIN_WATCH_DOG  , "/root/wdt_test",         "WatchDog Test   ", "-T 2 -t",                         1, 0 },
-	{ BIN_MLC        , "/root/fb_pan_test",      "MLC/DPC/LVDS    ", "-d /dev/fb0",                     1, 0 },
-	{ BIN_ARM_DVFS_1 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  400000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_2 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  500000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_3 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  600000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_4 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  700000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_5 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  800000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_6 , "/root/cpu_md_speed",     "DVFS Test       ", "-f  900000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_7 , "/root/cpu_md_speed",     "DVFS Test       ", "-f 1000000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_8 , "/root/cpu_md_speed",     "DVFS Test       ", "-f 1100000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_9 , "/root/cpu_md_speed",     "DVFS Test       ", "-f 1200000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_10, "/root/cpu_md_speed",     "DVFS Test       ", "-f 1300000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_ARM_DVFS_11, "/root/cpu_md_speed",     "DVFS Test       ", "-f 1400000 -z -l 1 -d -75",       1, 0 },
-	{ BIN_CPU_ALIVE  , "/root/rtc_suspend_test", "Suspend Test    ", "-T 2",                            1, 0 },
+	{ BIN_CPU_SORT    , "/usr/local/cpu_sort",		"CHIP Sorting   ", "",                            1, 0 },
 };
 
 
@@ -216,11 +176,16 @@ int main( int argc, char *argv[] )
 
 	static char outFileName[512];
 #endif
+
+#if (ENABLE_UART)
+	int uart_fd;
+#endif
+	char buf[128];
 	uint32_t ecid[4];
 	CHIPINFO_TYPE chipInfo;
 	GetECID( ecid );
 	ParseECID( ecid, &chipInfo );
-
+	
 #if (DUMP)
 	do{
 		sprintf( outFileName, "/mnt/mmc0/TestResult_%s_%x_%dx%d_IDS%d_RO%d_%d.txt",
@@ -232,34 +197,28 @@ int main( int argc, char *argv[] )
 	std_fd =  stdout_redirect(dump_fd);
 #endif
 
-	system("/root/cpu_md_vol -t -d 0");
-
-#if (EN_CONNECT_ASB)
-	CASBProtcol *pProto = new CASBProtcol();
-	pProto->GetBin();
-	pProto->ChipInfo( BIN_CPU_ID );
-#endif
+	system("/usr/lcoal/cpu_md_vol -t -d 0");
 
 	printf("\n\n================================================\n");
-	printf("    Start ASB Test(%d items)\n", gTotalTestItems);
+	printf("    Start SLT Test(%d items)\n", gTotalTestItems);
 	printf("================================================\n");
 
 	gettimeofday(&start, NULL);
+	
+#if (ENABLE_UART)
+	uart_fd = uart_init();
 
+	write(uart_fd, "<<start>>", 9);
+#endif
+	printf("<<start>>\n");
 
 	for( i=0 ; i<gTotalTestItems ; i++ )
 	{
 		gettimeofday(&itemStart, NULL);
-#if (EN_CONNECT_ASB)
-		pProto->SetData( gTestItems[i].binNo );
-#endif
 		if( 0 != TestItem(&gTestItems[i]) )
 		{
-			error = 1;
-
-#if (EN_CONNECT_ASB)
+			error = i+1;
 			break;
-#endif
 		}
 		gettimeofday(&itemEnd, NULL);
 		gTestItems[i].testTime = (uint64_t) ((itemEnd.tv_sec - itemStart.tv_sec)*1000 + (itemEnd.tv_usec - itemStart.tv_usec)/1000);
@@ -267,14 +226,10 @@ int main( int argc, char *argv[] )
 		sync();
 	}
 
-#if (EN_CONNECT_ASB)
-	pProto->SetResult( (error==0)?0x10:0x1 );
-#endif
-
 	gettimeofday(&end, NULL);
 
 
-	printf("\n    End ASB Test\n");
+	printf("\n    End SLT Test\n");
 	printf("================================================\n");
 
 	//	Output
@@ -300,7 +255,13 @@ int main( int argc, char *argv[] )
 	{
 		//	Yellow
 		printf("\033[43m");
-		printf("\n\n\n ASB ERROR!!!");
+		printf("\n\n\n SLT ERROR!!!");
+		sprintf(buf,"<<Error Code = %2d>>", error);
+		printf("%s", buf);
+
+#if (ENABLE_UART)
+		write(uart_fd, buf,20);
+#endif
 		printf("\033[0m\r\n");
 	}
 	else
@@ -310,7 +271,12 @@ int main( int argc, char *argv[] )
 		remove(outFileName);
 #endif
 		printf("\033[42m");
-		printf("\n\n\n ASB SUCCESS!!!");
+		printf("\n\n\n SLT PASS!!!");
+		sprintf(buf,"<< Error Code = PASS >>");
+		printf("%s", buf);
+#if (ENABLE_UART)
+		write(uart_fd, buf,23);
+#endif
 		printf("\033[0m\r\n");
 	}
 #if (DUMP)
@@ -318,8 +284,10 @@ int main( int argc, char *argv[] )
 	close(dump_fd);
 	stdout_restore(std_fd);
 #endif
-#if (EN_CONNECT_ASB)
-	delete pProto;
+
+#if (ENABLE_UART)
+	if (uart_fd)
+		close(uart_fd);
 #endif
 	return 0;
 }
