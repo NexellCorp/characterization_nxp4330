@@ -1,0 +1,5 @@
+#!/bin/sh
+#
+# Start logging
+#
+/usr/local/slt_main
