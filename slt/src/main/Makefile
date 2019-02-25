@@ -12,7 +12,7 @@ LIBRARY += -lstdc++
 
 ######################################################################
 # Target
-TARGET	:= asb_main
+TARGET	:= slt_main
 
 ######################################################################
 # Build
@@ -20,10 +20,9 @@ COBJS	:=
 CPPOBJS	:=
 
 CPPOBJS	+= ecid.o
-CPPOBJS	+= spi.o
-CPPOBJS	+= asb_protocol.o
-CPPOBJS	+= nx_gpio.o
 CPPOBJS	+= main.o
+
+COBJS	+= uart_test.o
 
 OBJS	:= $(COBJS) $(CPPOBJS)
 
