@@ -103,7 +103,7 @@ enum {
 
 static TEST_ITEM_INFO gTestItems[] =
 {
-	{ BIN_CPU_SORT    , "/usr/local/fault",		"CHIP Sorting   ", "",                            1, 0 },
+	{ BIN_CPU_SORT    , "/usr/local/cpu_sort",		"CHIP Sorting   ", "",                            1, 0 },
 };
 
 
