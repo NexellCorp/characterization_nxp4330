@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "871a6477_d6ee9186",
+        "filename": "slt/src/cpu_sort/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:36:36Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "079ba502ed06b67c1c54b65d3303aea862f23287",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "432b8de8_5f507e35",
+        "filename": "slt/src/cpu_sort/cpu_sort.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:36:36Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 86,
+        "startChar": 41,
+        "endLine": 86,
+        "endChar": 43
+      },
+      "revId": "079ba502ed06b67c1c54b65d3303aea862f23287",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec1bcf4c_7aeebfea",
+        "filename": "slt/src/cpu_sort/fault.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:36:36Z",
+      "side": 1,
+      "message": "remove tap",
+      "range": {
+        "startLine": 86,
+        "startChar": 41,
+        "endLine": 86,
+        "endChar": 43
+      },
+      "revId": "079ba502ed06b67c1c54b65d3303aea862f23287",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
