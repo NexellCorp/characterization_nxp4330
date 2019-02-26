@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27eecd15_4596502e",
+        "filename": "slt/src/main/main.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 1
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a497598_62c2ae51",
+        "filename": "slt/src/main/main.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 1
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3ae77eb_eb3b1803",
+        "filename": "slt/src/main/uart_test.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 33,
+        "startChar": 39,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94c4e1ce_be2ecee1",
+        "filename": "slt/src/main/uart_test.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 1
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "667aa6c3_a668ffbd",
+        "filename": "slt/src/main/uart_test.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 108,
+        "startChar": 25,
+        "endLine": 108,
+        "endChar": 26
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8a02b77_3dc9b320",
+        "filename": "slt/src/main/uart_test.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 1
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9902d477_1a386c8b",
+        "filename": "slt/src/main/uart_test.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 112,
+        "startChar": 2,
+        "endLine": 112,
+        "endChar": 3
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faed9d2a_84d8bca2",
+        "filename": "slt/src/main/uart_test.h",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:39:08Z",
+      "side": 1,
+      "message": "remove empty tap",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "edaa5718ac475f02cde4b6201bf32f20811c2564",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
