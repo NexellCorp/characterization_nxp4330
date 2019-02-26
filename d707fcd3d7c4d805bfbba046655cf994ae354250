@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4482165e_4b73da1b",
+        "filename": "scripts/build.nxp4330.slt.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:40:25Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 26,
+        "startChar": 77,
+        "endLine": 26,
+        "endChar": 80
+      },
+      "revId": "d707fcd3d7c4d805bfbba046655cf994ae354250",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9a3cda5_cd8035e9",
+        "filename": "scripts/build.nxp4330.slt.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-02-26T00:40:25Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 29,
+        "startChar": 14,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "d707fcd3d7c4d805bfbba046655cf994ae354250",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
