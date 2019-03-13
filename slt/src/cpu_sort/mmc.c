@@ -1,6 +1,7 @@
 #include "fault.h"
 
-#define DEVICE_PATH	"/mnt/mmc/"
+#define DEVICE_PATH	"/mnt/mmc"
+#define CH_NUM	3
 #define DEBUG	0
 
 #if (DEBUG)
@@ -13,18 +14,54 @@ pthread_t	mmc_mthread[THREAD_NUM];
 int		result[THREAD_NUM];
 int		mmc_exit_thread;
 
-void mount_mmc(void)
+int mount_mmc(void)
 {
-	mkdir("/mnt/mmc", 0755);
-	mount("/dev/mmcblk0p1", "/mnt/mmc", NULL, 0, NULL);
+	int ret = 0;
+	int i = 0;
+	unsigned char buf[128];
+	unsigned char c_buf[128];
+
+	for (i = 0; i < CH_NUM	; i++) {
+		sprintf(buf, "/mnt/mmc%d", i);
+		mkdir(buf, 0755);
+
+		sprintf(c_buf, "mount /dev/mmcblk%dp1 %s", i, buf);
+		ret = system(c_buf);
+		if(ret)
+			return ret;
+	}
+	return ret;
 }
 
+int unmount_mmc(void)
+{
+	int ret = 0;
+	int i = 0;
+	unsigned char buf[128];
+	unsigned char c_buf[128];
+
+	for (i = 0; i < CH_NUM; i++) {
+		sprintf(c_buf, "umount /dev/mmcblk%dp1 /mnt/mmc%d", i, i);
+		ret = system(c_buf);
+		if(ret) {
+			printf("MMC mount Fail\n");
+			return ret;
+		}
+	}
+	return ret;
+}
 static int mmc_rw_test(unsigned char *w, unsigned char *r, int size, int index )
 {
-	int ret;
+	int ret, id;
 	int fd;
 	char filepath[256];
-	sprintf( filepath, "%s%s%d.dat",DEVICE_PATH, "rw_test", index );
+
+	if (index >= CH_NUM)
+		id = index % (CH_NUM);
+	else 
+		id = index;
+
+	sprintf( filepath, "%s%d/%s%d.dat", "/mnt/mmc", id, "rw_test", index);
 	fd = open( filepath, O_CREAT|O_RDWR|O_SYNC );
 	if(fd <0)
 	{
@@ -103,9 +140,14 @@ out:
 
 int mmc_test_run(void)
 {
-	int i = 0;
+	int i = 0, ret = 0;
 	mmc_exit_thread = 0;
-	mount_mmc();
+	ret = mount_mmc();
+	if (ret) {
+		printf("mmc mount fail\n");
+		return -1;
+	}
+
 	for (i = 0; i < THREAD_NUM; i++) {
 		if( pthread_create(&mmc_mthread[i], NULL,
 					mmc_test_thread, i ) < 0 ) {

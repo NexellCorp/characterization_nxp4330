@@ -1,6 +1,7 @@
 #include "fault.h"
 
 #define DEVICE_PATH	"/mnt/usb/"
+#define USB_DEVICE	"/dev/sda1"
 #define DEBUG	0
 
 #if (DEBUG)
@@ -16,10 +17,30 @@ int		usb_exit_thread;
 
 int mount_usb(void)
 {
+	int ret = 0;
 	mkdir("/mnt/usb", 0755);
-	mount("/dev/sda1", "/mnt/usb", NULL, NULL, NULL);
+	ret = system("mount /dev/sda1 /mnt/usb");
+
 }
 
+int enable_host(int pwr)
+{
+	int cnt = 5000;
+	if(gpio_export(pwr))
+	{
+		printf("gpio open fail\n");
+		return -1;
+	}
+	gpio_dir_out(pwr);
+	gpio_set_value(pwr, 1);
+
+	while((access(USB_DEVICE,F_OK))&&cnt--)
+	{
+		usleep(10000);
+	}
+	return 0;
+
+}
 static int usb_rw_test(unsigned char *w, unsigned char *r, int size, int index )
 {
 	int ret;
@@ -103,9 +124,14 @@ out:
 
 int usb_test_run(void)
 {
-	int i = 0;
+	int i = 0, ret = 0;
 	usb_exit_thread = 0;
-	mount_usb();
+	ret = mount_usb();
+	if (ret) {
+		printf("mmc mount fail\n");
+		return -1;
+	}
+
 	for (i = 0; i < THREAD_NUM; i++) {
 		if( pthread_create(&usb_mthread[i], NULL,
 					usb_test_thread, i ) < 0 ) {
