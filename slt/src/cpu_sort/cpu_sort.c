@@ -35,6 +35,7 @@
 #define TEST_MMC 1
 #define TEST_USB 1
 #define TEST_CPU 1
+#define TEST_MEM 1
 
 #define	NUM_OF_CORE	4
 #define TEST_NUM	3
@@ -57,7 +58,11 @@ extern int usb_stop(void);
 extern int cpu_test_run(void);
 extern int cpu_status(void);
 extern int cpu_stop(void);
+extern int mount_usb(void);
 
+extern int mem_test_run(void);
+extern int mem_status(void);
+extern int mem_stop(void);
 
 void print_usage(void)
 {
@@ -98,6 +103,12 @@ int main(int argc, char **argv)
 	}
 #endif
 #if (TEST_USB)
+	ret = enable_host(17);
+	if (ret < 0) {
+		printf("mmc test fail\n");
+		ret = -1;
+		goto out;
+	}
 	ret = usb_test_run();
 	if (ret < 0) {
 		printf("mmc test fail\n");
@@ -113,6 +124,15 @@ int main(int argc, char **argv)
 		goto out;
 	}
 #endif
+#if (TEST_MEM)
+	ret = mem_test_run();
+	if (ret < 0) {
+		printf("mmc test fail\n");
+		ret = -1;
+		goto out;
+	}
+#endif
+
 	while (1) {
 #if (TEST_MMC)
 		if( SLT_RES_ERR == mmc_status()) {
@@ -130,11 +150,19 @@ int main(int argc, char **argv)
 #endif
 #if (TEST_CPU)
 		if( SLT_RES_ERR == cpu_status()) {
-			printf("mmc test err \n");
+			printf("cpu test err \n");
 			ret = -1;
 			break;
 		}
 #endif
+#if (TEST_MEM)
+		if( SLT_RES_ERR == mem_status()) {
+			printf("mem test err \n");
+			ret = -1;
+			break;
+		}
+#endif
+
 		end = get_tick_count();
 		if( (end - start) > testTime )
 			break;
@@ -149,6 +177,9 @@ int main(int argc, char **argv)
 #endif
 #if (TEST_CPU)
 	cpu_stop();
+#endif
+#if (TEST_CPU)
+	mem_stop();
 #endif
 
 	if (!ret) {

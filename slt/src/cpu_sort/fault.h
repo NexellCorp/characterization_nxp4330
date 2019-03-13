@@ -13,6 +13,7 @@
 #include <pthread.h>
 #include <sys/vfs.h>
 #include <sys/stat.h> /* stat */ 
+#include "gpio.h"
 
 #define RETRYCNT	200;
 #define KBYTE		(1024)
@@ -23,6 +24,7 @@
 #define THREAD_NUM	NUM_OF_CORE 
 #define TEST_SIZE	(128 * KBYTE)
 
+#define HOST_PWR_ON_PIN 17 /* GPIOA 17 */
 typedef enum{
 	SLT_RES_ERR     = -1,
 	SLT_RES_OK      = 0,
