@@ -9,7 +9,7 @@
 #else
 #define DBG_MSG(msg...)	do{} while(0);
 #endif
-#define CPU_TEST_SIZE 512 * KBYTE
+#define CPU_TEST_SIZE 10 * KBYTE * KBYTE
 
 pthread_t	cpu_mthread[THREAD_NUM];
 int		result[THREAD_NUM];
@@ -75,7 +75,6 @@ int cpu_test_run(void)
 	int i = 0;
 	cpu_exit_thread = 0;
 	for (i = 0; i < THREAD_NUM; i++) {
-		printf("i = %d\n", i);
 		if( pthread_create(&cpu_mthread[i], NULL,
 					cpu_test_thread, i ) < 0 ) {
 			printf(" cpu test fail\n");
