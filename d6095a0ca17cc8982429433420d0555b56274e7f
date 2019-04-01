@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96a7dc32_d739b7c0",
+        "filename": "files/nsih_general_sdmmc.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1015645
+      },
+      "writtenOn": "2019-04-01T09:34:14Z",
+      "side": 1,
+      "message": "please, remove empty lines",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "d6095a0ca17cc8982429433420d0555b56274e7f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
