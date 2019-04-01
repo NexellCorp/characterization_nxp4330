@@ -27,7 +27,7 @@ typedef struct TEST_ITEM_INFO{
 #define DUMP 0
 #define DUMP_LIMIT 100
 
-#define ENABLE_UART 0
+#define ENABLE_UART 1
 
 const char *gstStatusStr[32] = {
 	"FAILED",
@@ -256,7 +256,7 @@ int main( int argc, char *argv[] )
 		//	Yellow
 		printf("\033[43m");
 		printf("\n\n\n SLT ERROR!!!");
-		sprintf(buf,"<<Error Code = %2d>>", error);
+		sprintf(buf,"<<Error Code = %d>>",gTestItems[error-1].binNo);
 		printf("%s", buf);
 
 #if (ENABLE_UART)
