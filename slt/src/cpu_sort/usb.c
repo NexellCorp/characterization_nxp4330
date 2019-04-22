@@ -21,11 +21,12 @@ int mount_usb(void)
 	mkdir("/mnt/usb", 0755);
 	ret = system("mount /dev/sda1 /mnt/usb");
 
+	return ret;
 }
 
 int enable_host(int pwr)
 {
-	int cnt = 5000;
+	int cnt = 500;
 	if(gpio_export(pwr))
 	{
 		printf("gpio open fail\n");
@@ -34,11 +35,13 @@ int enable_host(int pwr)
 	gpio_dir_out(pwr);
 	gpio_set_value(pwr, 1);
 
-	while((access(USB_DEVICE,F_OK))&&cnt--)
+	while(cnt--)
 	{
 		usleep(10000);
+		if (!access(USB_DEVICE, F_OK))
+			return 0;
 	}
-	return 0;
+	return -1;
 
 }
 static int usb_rw_test(unsigned char *w, unsigned char *r, int size, int index )
@@ -72,7 +75,6 @@ static int usb_rw_test(unsigned char *w, unsigned char *r, int size, int index )
 
 static void *usb_test_thread(int id)
 {
-	//int id = (int)num;
 	int size = TEST_SIZE;
 	int i = 0, ret = -1 ;
 	unsigned char *wbuf = NULL;
@@ -128,7 +130,7 @@ int usb_test_run(void)
 	usb_exit_thread = 0;
 	ret = mount_usb();
 	if (ret) {
-		printf("mmc mount fail\n");
+		printf("usb mount fail\n");
 		return -1;
 	}
 
