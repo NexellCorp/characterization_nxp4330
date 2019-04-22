@@ -17,13 +17,27 @@ int		mmc_exit_thread;
 int mount_mmc(void)
 {
 	int ret = 0;
-	int i = 0;
+	int i = 0, cnt = 50;
 	unsigned char buf[128];
+	unsigned char node[32];
 	unsigned char c_buf[128];
 
 	for (i = 0; i < CH_NUM	; i++) {
 		sprintf(buf, "/mnt/mmc%d", i);
 		mkdir(buf, 0755);
+
+		sprintf(node, "/dev/mmcblk%dp1", i);
+
+		while (cnt--) {
+			usleep(10000);
+			if (!access(node, F_OK))
+				break;
+		}
+
+		if (cnt <= 0) {
+			printf("Not exist mmc %d node\n", i);
+			return -1;
+		}
 
 		sprintf(c_buf, "mount /dev/mmcblk%dp1 %s", i, buf);
 		ret = system(c_buf);
