@@ -62,7 +62,7 @@ BUILD_IMAGES=(
 	"MACHINE= nxp4330",
 	"ARCH	= arm",
 	"TOOL	= $LINUX_TOOLCHAIN",
-	"RESUL	= $RESULT",
+	"RESULT	= $RESULT",
 	"2nd	=
 		JOBS	: 1,
 		PRECMD	: ln -s -f $BASEDIR/prototype $BL_DIR/prototype,
@@ -74,23 +74,23 @@ BUILD_IMAGES=(
 		PATH	: $UBOOT_DIR,
 		CONFIG	: nxp4330_slt_config,
 		OUTPUT	: u-boot.bin,
-		COPY	: $RESULT/u-boot.bin,
+		COPY	: u-boot.bin,
 		POSTCMD	: $UBOOT_BINGEN",
 	"br2	=
 		PATH	: $BR2_DIR,
 		CONFIG	: nxp4330_slt_defconfig,
 		OUTPUT	: output/target,
-		COPY	: $RESULT/rootfs",
+		COPY	: rootfs",
 	"slt	=
 		PATH	: $SLT_DIR/src,
 		OUTPUT	: ../bin/,
-		COPY	: $RESULT/rootfs/usr/local/,
+		COPY	: rootfs/usr/local/,
 		POSTCMD	: $SLT_COPY",
 	"kernel	=
 		PATH	: $KERNEL_DIR,
 		CONFIG	: nxp4330_slt_defconfig,
 		IMAGE	: uImage,
-		COPY	: $RESULT/uImage,
+		COPY	: uImage,
 		OUTPUT	: arch/arm/boot/uImage",
 	"boot	=
 		POSTCMD	: $MAKE_BOOTIMG",
