@@ -1,6 +1,6 @@
 
 BASEDIR="$(cd "$(dirname "$0")" && pwd)/../.."
-LINUX_TOOLCHAIN=$(TOPDIR)/../crosstool/gcc-linaro-7.2.1-2017.11-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+LINUX_TOOLCHAIN=$(TOPDIR)/../crosstool/arm-cortex_a9-eabi-4.7-eglibc-2.18/bin/arm-cortex_a9-linux-gnueabi-
 
 CROSSNAME	:= $(LINUX_TOOLCHAIN)
 #CROSSNAME	:= 
